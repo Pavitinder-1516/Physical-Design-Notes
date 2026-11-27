@@ -1,78 +1,80 @@
-# Physical Design Flow — Day-by-Day Notes 🧩
+# Day 06 — Utilization Factor and Aspect Ratio
 
-Day-by-day study notes for the course **VLSI Academy — Physical Design Flow** (Udemy, 30 lectures in 7 sections), written by **Pavitinder Singh Bahia** (ECE, Thapar Institute of Engineering & Technology) from my own handwritten notes.
+> **Course:** Section 2: Floorplanning &nbsp;|&nbsp; **Lecture 6** &nbsp;|&nbsp; [VLSI Academy — Physical Design Flow (Udemy)](https://www.udemy.com/course/vlsi-academy-physical-design-flow/)  
+> **Notes source:** your handwritten notes + the lecture topic
 
-Every day = one lecture, explained in simple language with diagrams, worked examples and practice questions (with answers).
+## Defining the width and height of the core and die
 
-> 🎓 Course: https://www.udemy.com/course/vlsi-academy-physical-design-flow/
+The very first floorplanning decision: **how big is the chip?** For this step we are interested only in the **size of the cells**; we **ignore the wires** at first (your notes).
 
-![Physical design flow](diagrams/pd01_flow.png)
+### Start from the cells
 
-## 📚 Contents
+From your notes: say we have **4 components**, each a square of **1 unit × 1 unit = 1 square unit**. All 4 together need **at least 4 square units**.
 
-| Day | Section | Topic |
-|---|---|---|
-| 01 | 1 · Physical Design Flow Overview | [Floor-Planning Steps](Day-01-Floor-Planning-Steps/README.md) |
-| 02 | 1 · Physical Design Flow Overview | [Netlist Binding and Placement Optimization](Day-02-Netlist-Binding-and-Placement-Optimization/README.md) |
-| 03 | 1 · Physical Design Flow Overview | [Placement Timing and Clock Tree Synthesis](Day-03-Placement-Timing-and-Clock-Tree-Synthesis/README.md) |
-| 04 | 1 · Physical Design Flow Overview | [Clock Net Shielding](Day-04-Clock-Net-Shielding/README.md) |
-| 05 | 1 · Physical Design Flow Overview | [Route, DRC Clean, Parasitics Extraction, Final STA](Day-05-Route-DRC-Clean-Parasitics-Extraction-Final-STA/README.md) |
-| 06 | 2 · Floorplanning | [Utilization Factor and Aspect Ratio](Day-06-Utilization-Factor-and-Aspect-Ratio/README.md) |
-| 07 | 2 · Floorplanning | [Concept of Pre-Placed Cells](Day-07-Concept-of-Pre-Placed-Cells/README.md) |
-| 08 | 2 · Floorplanning | [De-coupling Capacitors](Day-08-De-coupling-Capacitors/README.md) |
-| 09 | 2 · Floorplanning | [Power Planning](Day-09-Power-Planning/README.md) |
-| 10 | 2 · Floorplanning | [Pin Placement and Logical Cell Placement Blockage](Day-10-Pin-Placement-and-Logical-Cell-Placement-Blockage/README.md) |
-| 11 | 3 · Placement | [Net-list Binding and Placement](Day-11-Net-list-Binding-and-Placement/README.md) |
-| 12 | 3 · Placement | [Optimize Placement Using Estimated Wire Length and Capacitance](Day-12-Optimize-Placement-Using-Estimated-Wire-Length-and-Capacitance/README.md) |
-| 13 | 3 · Placement | [Optimize Placement Continued](Day-13-Optimize-Placement-Continued/README.md) |
-| 14 | 4 · Timing Analysis with Ideal Clocks | [Setup Timing Analysis and Introduction to Flip-Flop Setup Time](Day-14-Setup-Timing-Analysis-and-Introduction-to-Flip-Flop-Setup-Time/README.md) |
-| 15 | 4 · Timing Analysis with Ideal Clocks | [Introduction to Clock Jitter and Uncertainty](Day-15-Introduction-to-Clock-Jitter-and-Uncertainty/README.md) |
-| 16 | 4 · Timing Analysis with Ideal Clocks | [Setup Timing Analysis with Multiple Clocks](Day-16-Setup-Timing-Analysis-with-Multiple-Clocks/README.md) |
-| 17 | 4 · Timing Analysis with Ideal Clocks | [Multiple Clock Timing Analysis and Introduction to Data Slew Check](Day-17-Multiple-Clock-Timing-Analysis-and-Introduction-to-Data-Slew-Check/README.md) |
-| 18 | 4 · Timing Analysis with Ideal Clocks | [Data Slew Check](Day-18-Data-Slew-Check/README.md) |
-| 19 | 5 · Clock Tree Synthesis and Signal Integrity | [Clock Tree Routing and Buffering using H-Tree Algorithm](Day-19-Clock-Tree-Routing-and-Buffering-using-H-Tree-Algorithm/README.md) |
-| 20 | 5 · Clock Tree Synthesis and Signal Integrity | [Crosstalk and Clock Net Shielding](Day-20-Crosstalk-and-Clock-Net-Shielding/README.md) |
-| 21 | 5 · Clock Tree Synthesis and Signal Integrity | [Static Timing Analysis with Real Clocks](Day-21-Static-Timing-Analysis-with-Real-Clocks/README.md) |
-| 22 | 5 · Clock Tree Synthesis and Signal Integrity | [Hold Timing Analysis Concluded](Day-22-Hold-Timing-Analysis-Concluded/README.md) |
-| 23 | 5 · Clock Tree Synthesis and Signal Integrity | [Multiple Clocks Setup Timing Analysis with Real Clocks](Day-23-Multiple-Clocks-Setup-Timing-Analysis-with-Real-Clocks/README.md) |
-| 24 | 6 · Routing and Design Rule Check (DRC) | [Introduction to Maze Routing - Lee's Algorithm](Day-24-Introduction-to-Maze-Routing-Lee-s-Algorithm/README.md) |
-| 25 | 6 · Routing and Design Rule Check (DRC) | [Lee's Algorithm Conclusion](Day-25-Lee-s-Algorithm-Conclusion/README.md) |
-| 26 | 6 · Routing and Design Rule Check (DRC) | [Design Rule Check](Day-26-Design-Rule-Check/README.md) |
-| 27 | 7 · Parasitics Extraction | [Introduction to IEEE 1481-1999 SPEF Format](Day-27-Introduction-to-IEEE-1481-1999-SPEF-Format/README.md) |
-| 28 | 7 · Parasitics Extraction | [SPEF Representation of a NET](Day-28-SPEF-Representation-of-a-NET/README.md) |
-| 29 | 7 · Parasitics Extraction | [Distributed Resistance and Capacitance Representation in SPEF](Day-29-Distributed-Resistance-and-Capacitance-Representation-in-SPEF/README.md) |
-| 30 | 7 · Parasitics Extraction | [SPEF Header Description, Physical Design Flow Conclusion and What Next](Day-30-SPEF-Header-Description-Physical-Design-Flow-Conclusion-and-What-Next/README.md) |
+### What is a die?
 
-## 🧭 The flow in one picture
+On a **silicon wafer** (a big round disc) many chips are made at once. A **die** is one small piece of semiconductor cut from the wafer, **on which the circuit is fabricated**. The **core** is the inner part of the die where the logic sits.
+
+## Utilisation factor (UF)
 
 ```
-netlist → floorplan → netlist binding → placement → placement optimisation (repeaters)
-        → timing with ideal clock → clock tree synthesis → clock net shielding
-        → timing with real clock (setup + hold) → routing → DRC → parasitic extraction (SPEF)
-        → final STA → sign-off
+                        area occupied by the netlist
+Utilisation factor  =  ------------------------------
+                           total area of the core
 ```
 
-## ⏱ All the timing rules on one page
+- If the 4 sq. units of cells sit in a **4 sq. unit core**, UF = 4/4 = **1 → 100% utilisation**. The core is completely full.
+- **Ideally**, utilisation is **50–60% (UF = 0.5–0.6)** (your notes).
 
-| Check | Rule |
-|---|---|
-| Setup, ideal clock | θ < T − S − SU |
-| Setup, ideal, two clocks | θ < SW − S − ISU |
-| Setup, real clock | (θ + Δ1) < (T + Δ2) − S − SU |
-| Setup, real, two clocks | (θ + Δ1) < (SW + Δ2) − S − ISU |
-| Hold, ideal clock | θ > H |
-| Hold, real clock | (θ + Δ1) > (H + Δ2) + HU |
-| Setup slack | data required time − data arrival time ≥ 0 |
-| Hold slack | data arrival time − data required time ≥ 0 |
+**Why not 100%?** The free space is needed later for **buffers/repeaters**, **wires**, **clock-tree buffers** and small fixes. A 100% full core has no room for any of these. It's like packing a suitcase completely full — you can't add anything later.
 
-θ = data-path delay, T = clock period, S/H = setup/hold time, SU/HU = setup/hold uncertainty, SW = shortest window, ISU = inter-clock uncertainty, Δ1/Δ2 = clock delay to launch/capture flop.
-
-## 🗂 Repository layout
+## Aspect ratio (AR)
 
 ```
-physical-design-notes/
-├── README.md
-├── Day-01-…/README.md  …  Day-30-…/README.md   ← one folder per lecture
-├── diagrams/                                    ← all figures (PNG)
-└── tools/make_diagrams.py                       ← regenerates the diagrams
+                   height of the core
+Aspect ratio  =  ----------------------
+                    width of the core
 ```
+
+- **AR = 1** → the core is a **square**.
+- AR ≠ 1 → a **rectangle**.
+
+![Utilisation factor and aspect ratio](../diagrams/pd02_uf_ar.png)
+
+### Worked example (from your notes)
+
+The 4 cells (FF, FF, AND, OR) placed in a core **4 units wide × 2 units high**:
+
+- Core area = 4 × 2 = 8 sq. units
+- UF = 4 / 8 = **0.5**
+- AR = 2 / 4 = **0.5**
+
+### More examples
+
+| Core (W × H) | Core area | UF | AR | Shape |
+|---|---|---|---|---|
+| 2 × 2 | 4 | 4/4 = 1.0 | 1.0 | square, completely full |
+| 4 × 1 | 4 | 1.0 | 0.25 | thin rectangle, full |
+| 4 × 2 | 8 | 0.5 | 0.5 | rectangle, half full |
+| 3 × 3 | 9 | 0.44 | 1.0 | square, room to spare |
+
+## Key points
+
+- UF = cell area / core area; aim for about **0.5–0.6**.
+- AR = height / width; **1 = square**.
+- Size the core from the cell area plus free space for buffers and wires.
+
+## Practice Questions
+
+1. 6 cells of 1 sq. unit each are placed in a 4 × 3 core. Find UF and AR.
+2. Why is 100% utilisation not used in real designs?
+3. A core is 10 µm wide with AR = 0.5. How high is it?
+
+**Answers**
+
+1. UF = 6/12 = 0.5; AR = 3/4 = 0.75.
+2. There would be no room left for buffers, repeaters, clock-tree cells and routing.
+3. Height = 0.5 × 10 = 5 µm.
+
+---
+[⬅ Day 05](../Day-05-Route-DRC-Clean-Parasitics-Extraction-Final-STA/README.md) | [Index](../README.md) | [Day 07 ➡](../Day-07-Concept-of-Pre-Placed-Cells/README.md)
